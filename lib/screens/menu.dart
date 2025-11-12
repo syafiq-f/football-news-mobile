@@ -1,66 +1,83 @@
 import 'package:flutter/material.dart';
 import 'package:football_news/widgets/left_drawer.dart';
+import 'package:football_news/screens/newslist_form.dart';
 import 'package:football_news/widgets/news_card.dart';
 
 class MyHomePage extends StatelessWidget {
-  MyHomePage({super.key});
+    MyHomePage({super.key}); 
+    
+    final String nama = "Syafiq Faqih";
+    final String npm = "2406439715"; 
+    final String kelas = "C";
 
-  final String nama = "Syafiq Faqih";
-  final String npm = "2406439715";
-  final String kelas = "C";
-
-  final List<Map<String, dynamic>> items = [
-    {"name": "See Football News", "icon": Icons.newspaper},
-    {"name": "Add News", "icon": Icons.add},
-    {"name": "Logout", "icon": Icons.logout},
+    final List<ItemHomepage> items = [
+    ItemHomepage("See Football News", Icons.newspaper),
+    ItemHomepage("Add News", Icons.add),
+    ItemHomepage("Logout", Icons.logout),
   ];
 
-  @override
-  Widget build(BuildContext context) {
+    @override
+    Widget build(BuildContext context) {
+    // Scaffold menyediakan struktur dasar halaman dengan AppBar dan body.
     return Scaffold(
+      // AppBar adalah bagian atas halaman yang menampilkan judul.
       appBar: AppBar(
+        // Judul aplikasi "Football News" dengan teks putih dan tebal.
         title: const Text(
           'Football News',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      drawer: const LeftDrawer(),
+      drawer: LeftDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // ====== Row InfoCard (NPM, Name, Class) ======
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                InfoCard(title: "NPM", content: npm),
-                InfoCard(title: "Name", content: nama),
-                InfoCard(title: "Class", content: kelas),
+                InfoCard(title: 'NPM', content: npm),
+                InfoCard(title: 'Name', content: nama),
+                InfoCard(title: 'Class', content: kelas),
               ],
             ),
 
             const SizedBox(height: 16.0),
 
-            const Text(
-              'Selamat datang di Football News',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
-            ),
+            Center(
+              child: Column(
 
-            const SizedBox(height: 20),
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 16.0),
+                    child: Text(
+                      'Selamat datang di Football News',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
 
-            // ====== Grid Button Menu ======
-            GridView.count(
-              primary: true,
-              padding: const EdgeInsets.all(20),
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              crossAxisCount: 3,
-              shrinkWrap: true,
-              children: items
-                  .map((item) => NewsCard(item["name"], item["icon"]))
-                  .toList(),
+                  GridView.count(
+                    primary: true,
+                    padding: const EdgeInsets.all(20),
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    crossAxisCount: 3,
+                    shrinkWrap: true,
+
+                    children: items.map((ItemHomepage item) {
+                      return ItemCard(item);
+                    }).toList(),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -70,9 +87,8 @@ class MyHomePage extends StatelessWidget {
 }
 
 class InfoCard extends StatelessWidget {
-  final String title;
-  final String content;
-
+  final String title; 
+  final String content; 
   const InfoCard({super.key, required this.title, required this.content});
 
   @override
@@ -80,11 +96,14 @@ class InfoCard extends StatelessWidget {
     return Card(
       elevation: 2.0,
       child: Container(
-        width: MediaQuery.of(context).size.width / 3.5,
+        width: MediaQuery.of(context).size.width / 3.5, 
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8.0),
             Text(content),
           ],
@@ -92,4 +111,11 @@ class InfoCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class ItemHomepage {
+ final String name;
+ final IconData icon;
+
+ ItemHomepage(this.name, this.icon);
 }
